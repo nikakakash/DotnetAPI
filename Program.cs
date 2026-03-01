@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using System.Text;
 using DotnetAPI.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,11 +9,43 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+
+
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter JWT token like this: Bearer {your token}"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+
+
+
+
+
 
 
 
@@ -48,7 +81,7 @@ SymmetricSecurityKey tokenKey = new SymmetricSecurityKey(
 
 TokenValidationParameters tokenValidationParameters = new TokenValidationParameters()
 {
-    ValidateIssuerSigningKey = false,
+    ValidateIssuerSigningKey = true,
     IssuerSigningKey = tokenKey,
     ValidateIssuer = false,
     ValidateAudience = false,
