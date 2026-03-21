@@ -44,10 +44,3 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes (`git commit -m 'Add some feature'`).
 4. Push to the branch (`git push origin feature/YourFeature`).
 5. Open a pull request.
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-- Thanks to the .NET community for their continuous support and resources.
-- Special thanks to the contributors who help improve this project.
