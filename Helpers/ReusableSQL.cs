@@ -22,7 +22,8 @@ namespace DotnetAPI.Helpers
             @JobTitle = @JobTitleParam,
             @Department = @DepartmentParam,
             @Salary = @SalaryParam,
-            @Active = @ActiveParam"; 
+            @Active = @ActiveParam,
+            @UserId = @UserIdParam"; 
             
             DynamicParameters sqlParameters = new DynamicParameters();
 

@@ -56,13 +56,14 @@ namespace DotnetAPI.Helpers
                     tokenKeyString != null ? tokenKeyString : "")
                 );
 
-            SigningCredentials credentials = new SigningCredentials(tokenKey, SecurityAlgorithms.HmacSha512Signature);
+            SigningCredentials credentials = new SigningCredentials(
+                tokenKey, SecurityAlgorithms.HmacSha512Signature);
 
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claims),
                 SigningCredentials = credentials,
-                Expires = DateTime.Now.AddDays(1)
+                Expires = DateTime.Now.AddDays(7)
             };
 
 

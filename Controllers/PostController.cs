@@ -84,17 +84,26 @@ namespace DotnetAPI.Controllers
             sqlParameters.Add("@UserIdParam", this.User.FindFirst("UserId")?.Value, dbType: System.Data.DbType.Int32);
             sqlParameters.Add("@PostIdParam", postToUpsert.PostId, dbType: System.Data.DbType.Int32);
 
-            
-            if(postToUpsert.PostId > 0)
+
+            if (postToUpsert.PostId > 0)
             {
                 sql += ", @PostId=@PostIdParam";
-            }
 
-            if (_dapper.ExecuteSqlWithParameterx(sql,sqlParameters))
-            {
-                return Ok();
+                if (_dapper.ExecuteSqlWithParameterx(sql, sqlParameters))
+                    return Ok(); // Update — no body needed
+
+                throw new Exception("Failed to update post");
             }
-            throw new Exception("Failed to Upsert post");
+            else
+            {
+                // Insert — return the created post so caller can get the new PostId
+                Post? createdPost = _dapper.LoadDataSingleWithParameter<Post>(sql, sqlParameters);
+
+                if (createdPost != null)
+                    return Ok(createdPost);
+
+                throw new Exception("Failed to create post");
+            }
         }
 
 

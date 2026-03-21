@@ -6,8 +6,16 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+
   <ItemGroup>
-    <PackageReference Include="automapper" Version="14" />
+    <Compile Remove="DotnetAPI.Tests\**" />
+    <Content Remove="DotnetAPI.Tests\**" />
+    <EmbeddedResource Remove="DotnetAPI.Tests\**" />
+    <None Remove="DotnetAPI.Tests\**" />
+  </ItemGroup>
+		
+  <ItemGroup>
+    <PackageReference Include="automapper" Version="12.0.1" />
     <PackageReference Include="dapper" Version="2.1.66" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.3" />

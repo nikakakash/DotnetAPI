@@ -42,7 +42,7 @@ namespace DotnetAPI.Controllers
         {
             if(userForRegistration.Password == userForRegistration.PasswordConfirm)
             {
-                string sqlCheckIfUserExists = @"select Email from TutorialAppSchema.Users Where Email = '"
+                string sqlCheckIfUserExists = @"select Email from TutorialAppSchema.Users Where Email =  '"
                  + userForRegistration.Email + "'";
 
                  IEnumerable<string> existingUsers = _dapper.LoadData<string>(sqlCheckIfUserExists);
@@ -96,9 +96,12 @@ namespace DotnetAPI.Controllers
 
             sqlParameters.Add("@EmailParam", userForLogin.Email, DbType.String);
 
-            UserForLoginConfirmationDTO userForConfirmation = _dapper.LoadDataSingleWithParameter<UserForLoginConfirmationDTO>(sqlForHashAndSalt,sqlParameters);
+            UserForLoginConfirmationDTO userForConfirmation =
+             _dapper.LoadDataSingleWithParameter<UserForLoginConfirmationDTO>(sqlForHashAndSalt,sqlParameters);
 
-            byte[] computedHash = _authHelpers.GetPasswordHash(userForLogin.Password, userForConfirmation.passwordSalt);
+            byte[] computedHash = _authHelpers.GetPasswordHash(
+                userForLogin.Password, 
+                userForConfirmation.passwordSalt);
 
             if (!computedHash.SequenceEqual(userForConfirmation.passwordHash))
             {
